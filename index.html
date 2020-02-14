@@ -7,7 +7,7 @@
     <title>ToDo App</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/app.css">
-    <link rel="manifest" href='./manifest.json' />
+    <!-- <link rel="manifest" href='./manifest.json' /> -->
 </head>
 <body>
     <div class="container">
@@ -22,9 +22,13 @@
             <form id="toDoApp">
                 <div class="form-group">
                     <label for="toDoItem">ToDo Item</label>
-                    <input type="text" class="form-control" id="toDoItem" placeholder="ToDo Item">
+                    <input type="text" class="form-control" id="toDoItem" placeholder="What's your ToDo">
+
+                    
                 </div>
                 <button type="submit" class="btn btn-primary">Add ToDo</button>
+
+                <input type="button" value="Clear All" class="btn btn-primary" onclick="removeAll()">
             </form>
         </div>
 
