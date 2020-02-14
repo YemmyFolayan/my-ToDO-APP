@@ -30,40 +30,56 @@ let myForm = document.getElementById("toDoApp");
 myForm.addEventListener('submit', saveToDoItem);
 
 // Creating the SaveToDoItem function
-function saveToDoItem(event) {
+function saveToDoItem(text) {
     // Stops form from submitting to the page
-    event.preventDefault();
-    // Get the toDoItem from the form
-    let toDoItem = document.getElementById("toDoItem").value;
-    let isCompleted = false;
-    // ToDo Object
-    function ToDo(id,item,isCompleted) {
-        this.id = id;
-        this.item = item;
-        this.isCompleted = isCompleted;
+    // text.preventDefault();
+    let textValue = text;
+    if(textValue.length !== 0){
+        console.log("zzzzzzzzzzzzzzzzzzzzzzzzzz");
+        
+        // Get the toDoItem from the form
+        let toDoItem = document.getElementById("toDoItem").value;
+        let isCompleted = false;
+        // ToDo Object
+        function ToDo(id,item,isCompleted) {
+            this.id = id;
+            this.item = item;
+            this.isCompleted = isCompleted;
+        }
+        // Checks if localStorage is empty and also adds to it
+        if (localStorage.getItem('toDos') === null) {
+        
+            // Create an array of ToDo items and add each toDo to it and then also save it to localStorage
+            let toDos = [];
+            // Create the toDo Object from ToDo
+            let id = toDos.length + 1;
+            let toDo = new ToDo(id,toDoItem,isCompleted);
+            // Append each toDo item to it
+            toDos.push(toDo);
+            // Save to localStorage by converrting the array to a JSON
+            localStorage.setItem('toDos', JSON.stringify(toDos));
+            
+            } 
+            else {
+                // Fetch data from LocalStorage, convert it to an array
+                let toDos = JSON.parse(localStorage.getItem('toDos'));
+                // Create the toDo Object from ToDo
+                let id = toDos.length + 1;
+                let toDo = new ToDo(id,toDoItem,isCompleted);
+                // Append toDo to the array of toDos
+                toDos.push(toDo);
+                // Convert back to JSON and Save to localStorage
+                localStorage.setItem('toDos', JSON.stringify(toDos));
+                console.log("I can see localstorage with length not equals to 0");
+            }
     }
-    // Checks if localStorage is empty and also adds to it
-    if (localStorage.getItem('toDos') === null) {
-        // Create an array of ToDo items and add each toDo to it and then also save it to localStorage
-        let toDos = [];
-        // Create the toDo Object from ToDo
-        let id = toDos.length + 1;
-        let toDo = new ToDo(id,toDoItem,isCompleted);
-        // Append each toDo item to it
-        toDos.push(toDo);
-        // Save to localStorage by converrting the array to a JSON
-        localStorage.setItem('toDos', JSON.stringify(toDos));
-    } else {
-        // Fetch data from LocalStorage, convert it to an array
-        let toDos = JSON.parse(localStorage.getItem('toDos'));
-        // Create the toDo Object from ToDo
-        let id = toDos.length + 1;
-        let toDo = new ToDo(id,toDoItem,isCompleted);
-        // Append toDo to the array of toDos
-        toDos.push(toDo);
-        // Convert back to JSON and Save to localStorage
-        localStorage.setItem('toDos', JSON.stringify(toDos));
+    else{
+        
+        alert("Input is empty, fill input");
     }
+
+
+
     // Re-fetch ToDo Items
     getToDoItems();
     // Clear form after submission
@@ -167,6 +183,17 @@ function getToDoItems() {
     markCompleted();
 }
 
+function removeAll(){
+    localStorage.clear();
+    getToDoItems();
+}
+
+
+
+
+
 // Set the CopyRight dynamically...
 let year = document.getElementById('year');
 year.innerHTML = new Date().getFullYear();
+
+
