@@ -12,11 +12,6 @@
 
 
 
-
-
-
-
-
 // Initializing the getToDoItems function
 if (JSON.parse(localStorage.getItem('toDos')) !== null) {
     window.onload = getToDoItems();
@@ -27,18 +22,32 @@ if (JSON.parse(localStorage.getItem('toDos')) !== null) {
 let myForm = document.getElementById("toDoApp");
 
 // Add an event listener to the form
-myForm.addEventListener('submit', saveToDoItem);
+myForm.addEventListener('submit', validateInput);
+
+
+// Validate User Input
+function validateInput(event) {
+    // Stops form from submitting to the page
+    event.preventDefault();
+    
+    // Form Variables...
+    let toDoItem = document.getElementById('toDoItem').value;
+   
+
+    if (toDoItem.length === 0) {
+        alert("Hey !..Input is Empty, Kindly enter your Todo.")
+    } else {
+        saveToDoItem(toDoItem)
+
+    }
+}
+
+
+
 
 // Creating the SaveToDoItem function
-function saveToDoItem(text) {
-    // Stops form from submitting to the page
-    // text.preventDefault();
-    let textValue = text;
-    if(textValue.length !== 0){
-        console.log("zzzzzzzzzzzzzzzzzzzzzzzzzz");
-        
-        // Get the toDoItem from the form
-        let toDoItem = document.getElementById("toDoItem").value;
+function saveToDoItem(toDoItem) {
+            
         let isCompleted = false;
         // ToDo Object
         function ToDo(id,item,isCompleted) {
@@ -70,13 +79,10 @@ function saveToDoItem(text) {
                 toDos.push(toDo);
                 // Convert back to JSON and Save to localStorage
                 localStorage.setItem('toDos', JSON.stringify(toDos));
-                console.log("I can see localstorage with length not equals to 0");
+                //console.log("I can see localstorage with length not equals to 0");
             }
-    }
-    else{
-        
-        alert("Input is empty, fill input");
-    }
+    
+  
 
 
 
@@ -151,13 +157,20 @@ function markCompleted() {
 // Displaying the saved toDo Items to the page
 // Fetch the toDoItems
 function getToDoItems() {
-    // Fetch data from LocalStorage, convert it to an array
-    let toDos = JSON.parse(localStorage.getItem('toDos'));
-    // Get output ID from the HTML page
+
     let toDoContents = document.getElementById("toDoContents");
     // Loop through the toDos
     // Sets the present toDoContents on the GUI to empty and appends new items to it....
     toDoContents.innerHTML = '';
+
+
+    // Checks if localStorage is empty and also adds to it
+    if (localStorage.getItem('toDos') !== null) {
+
+    // Fetch data from LocalStorage, convert it to an array
+    let toDos = JSON.parse(localStorage.getItem('toDos'));
+    // Get output ID from the HTML page
+
     // Reverse the toDo Array
     toDos.reverse();
     toDos.forEach(toDo => {
@@ -181,6 +194,10 @@ function getToDoItems() {
     });
     // Calling function to mark the completed toDoItems
     markCompleted();
+} else {
+    toDoContents.innerHTML = '';
+    //console.log('empty....');
+}
 }
 
 function removeAll(){
