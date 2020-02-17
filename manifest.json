@@ -2,7 +2,7 @@
     "name" : "Activity-Sheet",
     "short_name" : "Activity-Sheet",
     "lang" : "en-US",
-    "start_url": "index.html",
+    "start_url": "/index.html",
     "display": "standalone",
     "background_color": "rgb(5, 75, 22)",
     "theme_color": "rgb(5, 75, 22)",
